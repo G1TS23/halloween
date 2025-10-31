@@ -88,6 +88,12 @@ class TestOfficine {
     }
 
     @Test
+    void testEntrerSansRien() {
+        boolean result = officine.rentrer("");
+        assertFalse(result);
+    }
+
+    @Test
     void testEntrerQuantiteNegativeAvecStockZero() {
         boolean result = officine.rentrer("-1 larme de brume funèbre");
         assertFalse(result);
