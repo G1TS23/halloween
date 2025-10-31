@@ -73,7 +73,7 @@ public class Officine {
      * Ajoute des ingrédients au stock
      * @param ingredient Chaîne au format "quantité nom_ingredient" (ex: "3 yeux de grenouille")
      */
-    public boolean rentrer(String ingredient) {
+    public void rentrer(String ingredient) throws IllegalArgumentException{
         Pattern pattern = Pattern.compile("^(\\d+)\\s+(.+)$");
         Matcher matcher = pattern.matcher(ingredient);
 
@@ -84,10 +84,12 @@ public class Officine {
 
             if (item != null) {
                 stocks.put(item, stocks.getOrDefault(item, 0) + quantite);
-                return true;
+            } else {
+                throw new IllegalArgumentException("Ingredient invalide");
             }
+        } else {
+            throw new IllegalArgumentException("Ingredient invalide");
         }
-        return false;
     }
 
     /**
