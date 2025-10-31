@@ -33,6 +33,40 @@ class TestOfficine {
     }
 
     @Test
+    void testEntrerSansQuantite() {
+        boolean result = officine.rentrer("larmes de brume funèbre");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEntrerSansIngredient() {
+        boolean result = officine.rentrer("1");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEntrerSansRien() {
+        boolean result = officine.rentrer("");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEntrerQuantiteNegativeAvecStockZero() {
+        boolean result = officine.rentrer("-1 larme de brume funèbre");
+        assertFalse(result);
+        assertEquals(0, officine.quantite("larmes de brume funèbre"));
+    }
+
+    @Test
+    void testEntrerQuantiteNegativeAvecStockPosistif() {
+        boolean result01 = officine.rentrer("1 larme de brume funèbre");
+        boolean result02 = officine.rentrer("-1 larme de brume funèbre");
+        assertTrue(result01);
+        assertFalse(result02);
+        assertEquals(1, officine.quantite("larmes de brume funèbre"));
+    }
+
+    @Test
     void testQuantiteSingulierPluriel() {
         boolean result = officine.rentrer("5 larmes de brume funèbre");
         assertTrue(result);
@@ -75,37 +109,4 @@ class TestOfficine {
         assertEquals(1, prepared);
     }
 
-    @Test
-    void testEntrerSansQuantite() {
-        boolean result = officine.rentrer("larmes de brume funèbre");
-        assertFalse(result);
-    }
-
-    @Test
-    void testEntrerSansIngredient() {
-        boolean result = officine.rentrer("1");
-        assertFalse(result);
-    }
-
-    @Test
-    void testEntrerSansRien() {
-        boolean result = officine.rentrer("");
-        assertFalse(result);
-    }
-
-    @Test
-    void testEntrerQuantiteNegativeAvecStockZero() {
-        boolean result = officine.rentrer("-1 larme de brume funèbre");
-        assertFalse(result);
-        assertEquals(0, officine.quantite("larmes de brume funèbre"));
-    }
-
-    @Test
-    void testEntrerQuantiteNegativeAvecStockPosistif() {
-        boolean result01 = officine.rentrer("1 larme de brume funèbre");
-        boolean result02 = officine.rentrer("-1 larme de brume funèbre");
-        assertTrue(result01);
-        assertFalse(result02);
-        assertEquals(1, officine.quantite("larmes de brume funèbre"));
-    }
 }
