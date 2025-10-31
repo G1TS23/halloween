@@ -26,7 +26,7 @@ class TestOfficine {
 
     @Test
     void testRentrer() {
-        officine.rentrer("3 yeux de grenouille");
+        assertDoesNotThrow(() -> officine.rentrer("3 yeux de grenouille"));
 
         assertEquals(3, officine.quantite("œil de grenouille"));
     }
@@ -54,7 +54,7 @@ class TestOfficine {
 
     @Test
     void testEntrerQuantiteNegativeAvecStockPosistif() {
-        officine.rentrer("1 larme de brume funèbre");
+        assertDoesNotThrow(() -> officine.rentrer("1 larme de brume funèbre"));
         assertThrows(IllegalArgumentException.class, () -> officine.rentrer("-1 larme de brume funèbre"));
 
         assertEquals(1, officine.quantite("larmes de brume funèbre"));
@@ -62,7 +62,7 @@ class TestOfficine {
 
     @Test
     void testQuantiteSingulierPluriel() {
-        officine.rentrer("5 larmes de brume funèbre");
+        assertDoesNotThrow(() -> officine.rentrer("5 larmes de brume funèbre"));
 
         assertEquals(5, officine.quantite("larme de brume funèbre"));
         assertEquals(5, officine.quantite("larmes de brume funèbre"));
@@ -70,8 +70,8 @@ class TestOfficine {
 
     @Test
     void testPreparer() {
-        officine.rentrer("4 larmes de brume funèbre");
-        officine.rentrer("2 gouttes de sang de citrouille");
+        assertDoesNotThrow(() -> officine.rentrer("4 larmes de brume funèbre"));
+        assertDoesNotThrow(() -> officine.rentrer("2 gouttes de sang de citrouille"));
         int prepared = officine.preparer("2 fioles de glaires purulentes");
 
         assertEquals(2, prepared);
@@ -89,8 +89,8 @@ class TestOfficine {
 
     @Test
     void testPreparerSansQuantite() {
-        officine.rentrer("4 larmes de brume funèbre");
-        officine.rentrer("2 gouttes de sang de citrouille");
+        assertDoesNotThrow(() -> officine.rentrer("4 larmes de brume funèbre"));
+        assertDoesNotThrow(() -> officine.rentrer("2 gouttes de sang de citrouille"));
         int prepared = officine.preparer("fioles de glaires purulentes");
 
         assertEquals(0, prepared);
@@ -121,7 +121,7 @@ class TestOfficine {
 
     @Test
     void testPreparerDeuxPotionsAvecSeulementLesStocksDUneSeule() {
-        officine.rentrer("2 larmes de brume funèbre");
+        assertDoesNotThrow(() -> officine.rentrer("2 larmes de brume funèbre"));
         officine.rentrer("1 goutte de sang de citrouille");
         int prepared = officine.preparer("2 fioles de glaires purulentes");
 
