@@ -79,6 +79,9 @@ public class Officine {
 
         if (matcher.find()) {
             int quantite = Integer.parseInt(matcher.group(1));
+            if (quantite <= 0) {
+                throw new IllegalArgumentException("Quantité invalide");
+            }
             String nom = matcher.group(2);
             Item item = Item.fromNom(nom);
 
