@@ -64,4 +64,14 @@ class TestOfficine {
         int prepared = officine.preparer("2 goutte de sang de citrouille");
         assertEquals(0, prepared);
     }
+
+    @Test
+    void testPreparerDeuxPotionsAvecSeulementLesStocksDUneSeule() {
+        boolean result01 = officine.rentrer("2 larmes de brume funèbre");
+        boolean result02 = officine.rentrer("1 gouttes de sang de citrouille");
+        int prepared = officine.preparer("2 fioles de glaires purulentes");
+        assertTrue(result01);
+        assertTrue(result02);
+        assertEquals(1, prepared);
+    }
 }
