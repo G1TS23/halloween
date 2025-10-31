@@ -68,10 +68,38 @@ class TestOfficine {
     @Test
     void testPreparerDeuxPotionsAvecSeulementLesStocksDUneSeule() {
         boolean result01 = officine.rentrer("2 larmes de brume funèbre");
-        boolean result02 = officine.rentrer("1 gouttes de sang de citrouille");
+        boolean result02 = officine.rentrer("1 goutte de sang de citrouille");
         int prepared = officine.preparer("2 fioles de glaires purulentes");
         assertTrue(result01);
         assertTrue(result02);
         assertEquals(1, prepared);
+    }
+
+    @Test
+    void testEntrerSansQuantite() {
+        boolean result = officine.rentrer("larmes de brume funèbre");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEntrerSansIngredient() {
+        boolean result = officine.rentrer("1");
+        assertFalse(result);
+    }
+
+    @Test
+    void testEntrerQuantiteNegativeAvecStockZero() {
+        boolean result = officine.rentrer("-1 larme de brume funèbre");
+        assertFalse(result);
+        assertEquals(0, officine.quantite("larmes de brume funèbre"));
+    }
+
+    @Test
+    void testEntrerQuantiteNegativeAvecStockPosistif() {
+        boolean result01 = officine.rentrer("1 larme de brume funèbre");
+        boolean result02 = officine.rentrer("-1 larme de brume funèbre");
+        assertTrue(result01);
+        assertFalse(result02);
+        assertEquals(1, officine.quantite("larmes de brume funèbre"));
     }
 }
