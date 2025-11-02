@@ -91,7 +91,7 @@ public class Officine {
                 throw new IllegalArgumentException("Ingredient invalide");
             }
         } else {
-            throw new IllegalArgumentException("Ingredient invalide");
+            throw new IllegalArgumentException("Format invalide");
         }
     }
 
@@ -103,7 +103,7 @@ public class Officine {
     public int quantite(String ingredient) {
         Item item = Item.fromNom(ingredient);
         if (item == null) {
-            return 0;
+            throw new IllegalArgumentException("Ingredient invalide");
         }
         return stocks.getOrDefault(item, 0);
     }
@@ -118,7 +118,7 @@ public class Officine {
         Matcher matcher = pattern.matcher(demande);
 
         if (!matcher.find()) {
-            return 0;
+            throw new IllegalArgumentException("Format invalide");
         }
 
         int quantiteDemandee = Integer.parseInt(matcher.group(1));
@@ -126,7 +126,7 @@ public class Officine {
         Item potion = Item.fromNom(nomPotion);
 
         if (potion == null || !recettes.containsKey(potion)) {
-            return 0;
+            throw new IllegalArgumentException("Potion invalide");
         }
 
         // Calculer combien de potions peuvent être préparées
@@ -143,7 +143,7 @@ public class Officine {
                 Item itemIngredient = Item.fromNom(nomIngredient);
 
                 if (itemIngredient == null) {
-                    return 0;
+                    throw new IllegalArgumentException("Ingredient invalide");
                 }
 
                 int stockDisponible = stocks.getOrDefault(itemIngredient, 0);
@@ -165,6 +165,8 @@ public class Officine {
 
                     int stockActuel = stocks.get(itemIngredient);
                     stocks.put(itemIngredient, stockActuel - (quantiteNecessaire * maxPreparable));
+                } else {
+                    throw new IllegalArgumentException("Format invalide");
                 }
             }
 

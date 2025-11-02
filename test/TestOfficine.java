@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+
+import java.util.concurrent.atomic.AtomicInteger;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class TestOfficine {
@@ -72,9 +75,13 @@ class TestOfficine {
     void testPreparer() {
         assertDoesNotThrow(() -> officine.rentrer("4 larmes de brume funèbre"));
         assertDoesNotThrow(() -> officine.rentrer("2 gouttes de sang de citrouille"));
-        int prepared = officine.preparer("2 fioles de glaires purulentes");
 
-        assertEquals(2, prepared);
+        AtomicInteger prepared = new AtomicInteger();
+        assertDoesNotThrow(() -> {
+            prepared.set(officine.preparer("2 fioles de glaires purulentes"));
+        });
+
+        assertEquals(2, prepared.get());
         assertEquals(0, officine.quantite("larme de brume funèbre"));
         assertEquals(0, officine.quantite("goutte de sang de citrouille"));
         assertEquals(2, officine.quantite("fiole de glaires purulentes"));
@@ -82,49 +89,68 @@ class TestOfficine {
 
     @Test
     void testPreparerSansIngredientsDisponibles() {
-        int prepared = officine.preparer("2 fioles de glaires purulentes");
+        AtomicInteger prepared = new AtomicInteger();
+        assertDoesNotThrow(() -> {
+            prepared.set(officine.preparer("2 fioles de glaires purulentes"));
+        });
 
-        assertEquals(0, prepared);
+        assertEquals(0, prepared.get());
     }
 
     @Test
     void testPreparerSansQuantite() {
+        AtomicInteger prepared = new AtomicInteger();
         assertDoesNotThrow(() -> officine.rentrer("4 larmes de brume funèbre"));
         assertDoesNotThrow(() -> officine.rentrer("2 gouttes de sang de citrouille"));
-        int prepared = officine.preparer("fioles de glaires purulentes");
+        assertThrows(IllegalArgumentException.class, () -> {
+            prepared.set(officine.preparer("fioles de glaires purulentes"));
+        });
 
-        assertEquals(0, prepared);
+        assertEquals(0, prepared.get());
         assertEquals(4, officine.quantite("larme de brume funèbre"));
         assertEquals(2, officine.quantite("goutte de sang de citrouille"));
     }
 
     @Test
     void testPreparerSansNomDeRecette() {
-        int prepared = officine.preparer("2");
+        AtomicInteger prepared = new AtomicInteger();
+        assertThrows(IllegalArgumentException.class, () -> {
+            prepared.set(officine.preparer("2"));
+        });
 
-        assertEquals(0, prepared);
+        assertEquals(0, prepared.get());
     }
 
     @Test
     void testPreparerVide() {
-        int prepared = officine.preparer("");
+        AtomicInteger prepared = new AtomicInteger();
+        assertThrows(IllegalArgumentException.class, () -> {
+            prepared.set(officine.preparer(""));
+        });
 
-        assertEquals(0, prepared);
+        assertEquals(0, prepared.get());
     }
 
     @Test
     void testPreparerPotionInconnue() {
-        int prepared = officine.preparer("2 goutte de sang de citrouille");
+        AtomicInteger prepared = new AtomicInteger();
+        assertThrows(IllegalArgumentException.class, () -> {
+            prepared.set(officine.preparer("2 goutte de sang de citrouille"));
+        });
 
-        assertEquals(0, prepared);
+        assertEquals(0, prepared.get());
     }
 
     @Test
     void testPreparerDeuxPotionsAvecSeulementLesStocksDUneSeule() {
         assertDoesNotThrow(() -> officine.rentrer("2 larmes de brume funèbre"));
-        officine.rentrer("1 goutte de sang de citrouille");
-        int prepared = officine.preparer("2 fioles de glaires purulentes");
+        assertDoesNotThrow(() -> officine.rentrer("1 goutte de sang de citrouille"));
 
-        assertEquals(1, prepared);
+        AtomicInteger prepared = new AtomicInteger();
+        assertDoesNotThrow(() -> {
+            prepared.set(officine.preparer("2 fioles de glaires purulentes"));
+        });
+
+        assertEquals(1, prepared.get());
     }
 }
