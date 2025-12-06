@@ -171,4 +171,20 @@ class TestOfficine {
         assertEquals(0, officine.quantite("larme de brume funèbre"));
         assertEquals(0, officine.quantite("goutte de sang de citrouille"));
     }
+
+    @Test
+    void testPreparerPotionComplexe() {
+
+        officine.rentrer("2 larmes de brume funèbre");
+        officine.rentrer("1 goutte de sang de citrouille");
+        officine.preparer("1 fiole de glaires purulentes");
+
+        officine.rentrer("3 radicelles de racine hurlante");
+
+        int resultat = officine.preparer("1 baton de pâte sépulcrale");
+
+        assertEquals(1, resultat);
+        assertEquals(0, officine.quantite("fiole de glaires purulentes"), "La potion intermédiaire aurait dû être consommée");
+        assertEquals(1, officine.quantite("baton de pâte sépulcrale"));
+    }
 }
