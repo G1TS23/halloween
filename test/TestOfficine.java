@@ -23,6 +23,12 @@ class TestOfficine {
     }
 
     @Test
+    void testQuantiteIngredientInconnu() {
+        // Si le comportement attendu est une exception
+        assertThrows(IllegalArgumentException.class, () -> officine.quantite("Poudre de perlimpinpin"));
+    }
+
+    @Test
     void testRentrerProduitInexistant() {
         assertThrows(IllegalArgumentException.class, () -> officine.rentrer("3 oeufs de caille"));
     }
