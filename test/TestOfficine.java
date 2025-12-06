@@ -159,4 +159,16 @@ class TestOfficine {
 
         assertEquals(1, prepared.get());
     }
+
+    @Test
+    void testStockApresFabricationPartielle() {
+        officine.rentrer("2 larmes de brume funèbre");
+        officine.rentrer("1 goutte de sang de citrouille");
+
+        int prepared = officine.preparer("5 fioles de glaires purulentes");
+
+        assertEquals(1, prepared);
+        assertEquals(0, officine.quantite("larme de brume funèbre"));
+        assertEquals(0, officine.quantite("goutte de sang de citrouille"));
+    }
 }
